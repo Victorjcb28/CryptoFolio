@@ -1,0 +1,49 @@
+		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+					<th>Name</th>
+					<th>Precio</th>
+					<th>Precio BTC</th>
+					<th>Cambio ultima hora</th>
+				</tr>
+              </thead>
+              <tfoot>
+               <tr>
+					<th>Name</th>
+					<th>Precio</th>
+					<th>Precio BTC</th>
+					<th>Cambio ultima hora</th>
+				</tr>
+              </tfoot>
+              <tbody>
+			
+
+			 
+			{% for coin in crypto_data %}
+				<tr >
+					<td><label for="" class="name">{{coin.name}}</label></td>
+					<td><label for="" class="monto">{{coin.price_usd}} </label></td>
+					<td><label for="" class="cantidad">1</label></td>
+					<td><label for="">{{coin.percent_change_1h}}</label></td>
+				</tr>
+
+				
+
+				
+				
+			    {% endfor %}
+			
+
+</tbody>
+           
+             
+			
+            </table>	
+
+<script>
+	
+	$(document).ready(function(){
+    $('#dataTable').DataTable();
+});
+</script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

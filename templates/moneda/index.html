@@ -1,0 +1,65 @@
+<input type="text" id="total">
+   <div class="list-group-item list-group-item-primary">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>USD Price</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>BTC Price</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Change in Last Hour</label>
+                    </div>
+                </div>
+            </div>
+            {% for coin in crypto_data %}
+            <div class="list-group-item list-group-item-{% if coin.percent_change_1h.0 == '-'%}danger{% else %}success{% endif %}">
+                <div class="row">
+					
+                    <div class="col-md-3">
+                        {{coin.name}}
+                    </div>
+                    <div class="col-md-3">
+                    <input type="text" value={{coin.price_usd}} id="montousd">
+                        
+                    </div>
+                    <div class="col-md-3">
+                        {{coin.price_btc}}
+                    </div>
+                    <div class="col-md-3">
+                        {{coin.percent_change_1h}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+            	<script>
+
+    $(document).ready(
+            function() {
+            	var jq=$(document),
+                txtdolares=jq.find('.monto');	
+
+                setInterval(function() {
+                		var total=0;
+							 $(".monto").each(function(){
+							 	var monto = Number($(this).text());
+							 						 	
+							 	total=total+monto;
+							 	
+							 	
+							 	
+							 });
+
+							 total=total.toFixed(2);
+							 
+							 $('#total').val(total);   		                      		
+                    
+                }, 10000);
+            });
+	</script>
