@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<form method="POST" id="guardaru" enctype="multipart/form-data">
+
+	{% csrf_token %}
+	
+ 	{{ form.as_p }}	
+
+ 	<div class="col-md-3 ">
+			<div class="form-group">
+				<label for="">Cargo</label>
+						{{form.name.value}}
+					<input type="text" value={{coin.name.value}}>
+
+			</div>
+		</div>
+}
+}
+	
+</form>
+
+
+
+
+{% endblock %}
