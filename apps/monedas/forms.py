@@ -9,16 +9,20 @@ class MonedaForm(forms.ModelForm):
 	class Meta:
 		model= Moneda
 		fields=[
-			'nombre',
+			'name',
 			'cantidad',
+			'preciousd',
+			'preciobtc',
 			
 					
 
 		]
 
 		labels={
-			'nombre':'Nombre de la Moneda',
+			'name':'Nombre de la Moneda',
 			'cantidad':'Cantidad',
+			'preciousd':'Precio en $',
+			'preciobtc':'Precio en BTC',
 					
 			
 			
@@ -26,8 +30,10 @@ class MonedaForm(forms.ModelForm):
 		
 		widgets={
 
-			'nombre':forms.TextInput(attrs={'class':'form-control'}),
+			'name':forms.TextInput(attrs={'class':'form-control'}),
 			'cantidad':forms.TextInput(attrs={'class':'form-control'}),
+			'preciousd':forms.TextInput(attrs={'class':'form-control'}),
+			'preciobtc':forms.TextInput(attrs={'class':'form-control'}),
 			
 			
 			

@@ -4,5 +4,10 @@ from django.db import models
 
 class Moneda(models.Model):
 
-	nombre= models.CharField(max_length=50)
+	name= models.CharField(max_length=50)
 	cantidad= models.IntegerField()
+	preciousd=models.FloatField()
+	preciobtc=models.FloatField()
+
+
+
