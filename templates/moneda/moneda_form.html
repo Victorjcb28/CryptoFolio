@@ -5,6 +5,29 @@
 
 
 
+				<script>
+					$(document).ready(function(){
+				    $(".boton").click(function() {
+
+				        var valores = "";
+
+				        // Obtenemos todos los valores contenidos en los <td> de la fila
+				        // seleccionada
+				        $(this).parents("tr").find(".symbol").each(function() {
+				          valores = $(this).html() + "\n";
+				          $('.simbolo').show();
+				          $('.simbolo').hide();
+				          $("."+valores).toggle();
+				        
+				        });
+				        
+				        
+				      });
+				    });
+				</script>				
+
+
+
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
@@ -14,19 +37,21 @@
              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
+                	<th style="display: none;">Simbolo</th>
 					<th>Name</th>
 					<th>Precio</th>
 					<th>Precio BTC</th>
-					<th>Cambio ultima hora</th>
+					<th>Cambio</th>
 					<th>Operacion</th>
 				</tr>
               </thead>
               <tfoot>
                <tr>
+               		<th style="display: none;">Simbolo</th>
 					<th>Name</th>
 					<th>Precio</th>
 					<th>Precio BTC</th>
-					<th>Cambio ultima hora</th>
+					<th>Cambio</th>
 					<th>Operacion</th>
 				</tr>
               </tfoot>
@@ -35,22 +60,68 @@
 
 			 
 			{% for coin in crypto_data %}
+				
 				<tr >
+					<td class="symbol" style="display: none;">{{coin.symbol}}</td>
 					<td>{{coin.name}}</td>
 					<td><label for="" class="monto">{{coin.price_usd}} </label></td>
-					<td><label for="" class="cantidad">1</label></td>
+					<td><label for="" class="cantidad">{{coin.price_btc}}</label></td>
 					<td><label for="">{{coin.percent_change_1h}}</label></td>
-					<td><a class="btn btn-primary" href="{% url 'monedas:moneda_create' coin.name%}">Registrar</a></td>
+					<td><input type="button" value="Seleccionar" class="btn btn-primary boton"></td>
+
 				</tr>
+				
+				<tr  class="simbolo {{coin.symbol}}" style="background: gray;display: none;" >
+				
+					<form method="POST" id="guardaru" enctype="multipart/form-data">
+						
 
+						<td>
+						<fieldset class="form-group">
+						    <label for="Moneda">Moneda</label>
+						    <input type="text" class="form-control" id="name" name="name" size="5%">
+					  	</fieldset>
+						</td>
+						<td>
+						<fieldset class="form-group">
+						    <label for="Moneda">Precio USD</label>
+						    <input type="text" class="form-control" id="price_usd" name="price_usd" size="5%">
+					  	</fieldset>
+						</td>
+						<td>
+						<fieldset class="form-group">
+						    <label for="Moneda">Precio BTC</label>
+						    <input type="text" class="form-control" id="price_btc" name="price_btc" size="5%">
+					  	</fieldset>
+						</td>
+						<td>
+						<fieldset class="form-group">
+						    <label for="Moneda">Cantidad</label>
+						    <input type="text" class="form-control" id="cantidad" name="cantidad" size="5%">
+					  	</fieldset>
+						</td>
+						<td>
+						<fieldset class="form-group">
+						    <input type="button" value="Registrar" style="margin-top: 16%;" class="btn btn-success">
+					  	</fieldset>
+						
+
+						</td>
+
+
+
+					</form>
+
+					
+				</tr>
 				
 
 				
 				
-			    {% endfor %}
-			
+			{% endfor %}
 
-</tbody>
+
+			</tbody>
            
              
 			
@@ -59,7 +130,9 @@
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
       </div>
-    </div>
+    
+
+
 
 
 {% endblock %}
