@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 
-
+				
 
 
 				<script>
@@ -15,7 +15,7 @@
 				        // seleccionada
 				        $(this).parents("tr").find(".symbol").each(function() {
 				          valores = $(this).html() + "\n";
-				          $('.simbolo').show();
+				          
 				          $('.simbolo').hide();
 				          $("."+valores).toggle();
 				        
@@ -34,7 +34,7 @@
           <i class="fa fa-table"></i> Cryptocurrency</div>
         <div class="card-body" id="card">
           <div class="table-responsive" id="prueba1">
-             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+             <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                 	<th style="display: none;">Simbolo</th>
@@ -71,7 +71,7 @@
 
 				</tr>
 				
-				<tr  class="simbolo {{coin.symbol}}" style="background: gray;display: none;" >
+				<tr  class="simbolo {{coin.symbol}}" style="background: #E0E0E0;display: none;" >
 				
 					<form method="POST" id="guardaru" enctype="multipart/form-data">
 						
@@ -100,9 +100,14 @@
 						    <input type="text" class="form-control" id="cantidad" name="cantidad" size="5%">
 					  	</fieldset>
 						</td>
-						<td>
+						<td style="padding-top:20px;">
 						<fieldset class="form-group">
-						    <input type="button" value="Registrar" style="margin-top: 16%;" class="btn btn-success">
+							<a class="btn btn-success" href="#">Registrar</a>
+							
+					  	</fieldset>
+					  	<fieldset class="form-group">
+							
+							<a class="btn btn-info" href="{% url 'moneda:moneda_info'%}">Ver mas</a>
 					  	</fieldset>
 						
 
