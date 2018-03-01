@@ -21,7 +21,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="Moneda">Precio USD</label>
-						    	<input type="text" class="form-control" id="price_usd" name="price_usd" disabled>
+						    	<label for="">169115$</label>
 
 							</div>
 						</div>
@@ -30,7 +30,7 @@
 						<div class="col-md-6 ">
 							<div class="form-group">
 								<label for="Moneda">Precio BTC</label>
-						    	<input type="text" class="form-control" id="price_btc" name="price_btc" disabled>
+						    	<label for="">1BTC</label>
 							</div>
 						</div>
 					</div>
@@ -38,7 +38,7 @@
 						<div class="col-md-6 ">
 							<div class="form-group">
 								<label for="Moneda">Cantidad</label>
-						    	<input type="text" class="form-control" id="cantidad" name="cantidad" disabled>
+						    	<label for="">0.0001BTC</label>
 							</div>
 						</div>
 											
@@ -63,21 +63,21 @@
 	              	<div class="col-md-4">
 	              		<fieldset class="form-group">
 							    <label for="Moneda">Moneda</label>
-							    <input type="text" class="form-control" id="name" name="name" size="5%">
+							    {{form.name}}
 						  	</fieldset>
 	              	</div>
 
 	              	<div class="col-md-4">
 	              		<fieldset class="form-group">
 							<label for="Moneda">Precio BTC</label>
-							<input type="text" class="form-control" id="price_btc" name="price_btc" size="5%">
+							{{form.preciobtc}}
 						 </fieldset>
 	              	</div>
 
 	              	<div class="col-md-4">
 	              		<fieldset class="form-group">
 							<label for="Moneda">Precio USD</label>
-							<input type="text" class="form-control" id="price_usd" name="price_usd" size="5%">
+							{{form.preciousd}}
 						 </fieldset>
 	              	</div>
 	            </div>

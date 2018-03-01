@@ -8,8 +8,10 @@
 				<script>
 					$(document).ready(function(){
 				    $(".boton").click(function() {
-
+				    	 
 				        var valores = "";
+				        var usd="";
+				        var btc=";"
 
 				        // Obtenemos todos los valores contenidos en los <td> de la fila
 				        // seleccionada
@@ -18,6 +20,35 @@
 				          
 				          $('.simbolo').hide();
 				          $("."+valores).toggle();
+				          $('.symbol').val(valores);
+
+
+				        
+				        });
+
+				        $(this).parents("tr").find(".nombre").each(function() {
+				          name = $(this).html() + "\n";
+				          
+				          
+				          $('.name').val(name);
+				          
+				        
+				        });
+				        $(this).parents("tr").find(".usd").each(function() {
+				          usd = $(this).html() + "\n";
+				          
+				          
+				          $('.preciousd').val(usd);
+				          
+				        
+				        });
+
+				        $(this).parents("tr").find(".btc").each(function() {
+				          btc = $(this).html() + "\n";
+				          
+				          
+				          $('.preciobtc').val(btc);
+				          
 				        
 				        });
 				        
@@ -63,51 +94,56 @@
 				
 				<tr >
 					<td class="symbol" style="display: none;">{{coin.symbol}}</td>
-					<td>{{coin.name}}</td>
-					<td><label for="" class="monto">{{coin.price_usd}} </label></td>
-					<td><label for="" class="cantidad">{{coin.price_btc}}</label></td>
+					<td class="nombre">{{coin.name}}</td>
+					<td class="usd">{{coin.price_usd}}</td>
+					<td class="btc">{{coin.price_btc}}</td>
 					<td><label for="">{{coin.percent_change_1h}}</label></td>
 					<td><input type="button" value="Seleccionar" class="btn btn-primary boton"></td>
 
 				</tr>
 				
-				<tr  class="simbolo {{coin.symbol}}" style="background: #E0E0E0;display: none;" >
+				<tr  class="simbolo {{coin.symbol}}" style="background: #E0E0E0;display: none;">
 				
 					<form method="POST" id="guardaru" enctype="multipart/form-data">
+						{% csrf_token %}
 						
-
 						<td>
 						<fieldset class="form-group">
 						    <label for="Moneda">Moneda</label>
-						    <input type="text" class="form-control" id="name" name="name" size="5%">
+						    {{form.symbol}}
+						    {{form.name}}
 					  	</fieldset>
 						</td>
 						<td>
 						<fieldset class="form-group">
 						    <label for="Moneda">Precio USD</label>
-						    <input type="text" class="form-control" id="price_usd" name="price_usd" size="5%">
+						    {{form.preciousd}}
 					  	</fieldset>
 						</td>
 						<td>
 						<fieldset class="form-group">
 						    <label for="Moneda">Precio BTC</label>
-						    <input type="text" class="form-control" id="price_btc" name="price_btc" size="5%">
+						    {{form.preciobtc}}
 					  	</fieldset>
 						</td>
+						
 						<td>
+						{% for moneda in monedas%}
 						<fieldset class="form-group">
 						    <label for="Moneda">Cantidad</label>
-						    <input type="text" class="form-control" id="cantidad" name="cantidad" size="5%">
+						    {{moneda.cantidad}}
 					  	</fieldset>
+					  	{%endfor%}
 						</td>
+						
 						<td style="padding-top:20px;">
 						<fieldset class="form-group">
-							<a class="btn btn-success" href="#">Registrar</a>
+							<button type="submit" class="btn btn-success" id="enviar">Registrar</button>
 							
 					  	</fieldset>
 					  	<fieldset class="form-group">
 							
-							<a class="btn btn-info" href="{% url 'moneda:moneda_info'%}">Ver mas</a>
+							<a class="btn btn-info" href="{% url 'moneda:moneda_info' coin.symbol%}">Ver mas</a>
 					  	</fieldset>
 						
 
@@ -123,6 +159,7 @@
 
 				
 				
+			
 			{% endfor %}
 
 
