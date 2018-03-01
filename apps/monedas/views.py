@@ -35,45 +35,41 @@ def moneda(request):
 	
 	return render(request, 'moneda/moneda_form.html',data) 
 
-
-class MonedaCreate(CreateView):
-	model= Moneda
-	template_name="moneda/moneda_create.html"
+class MonedaInfo1(TemplateView):
+	model=Moneda
 	form_class=MonedaForm
-	success_url=reverse_lazy('monedas:index')
+	template_name='moneda/moneda_info.html'
 
-	def get_context_data(self, **kwargs):
-		context = super(MonedaCreate, self).get_context_data(**kwargs)
-		pk = self.kwargs.get('pk', 0)
-		if 'form' not in context:
-			context['form'] = self.form_class(self.request.GET)
+
+class MonedaInfo(UpdateView):
+	model = Moneda	
+	form_class = MonedaForm
+	
+
+	template_name= 'moneda/moneda_info.html'
+	success_url= reverse_lazy('moneda:index')
+
+class MonedaList(ListView):
+	model= Moneda
+	template_name= 'moneda/moneda_list.html'
+
+def MonedaCreate(request):
+	moneda=Moneda.objects.all()
+	form= MonedaForm(request.POST or None,request.FILES or None)
+
+	context={
+
+		"form":form,
+		"monedas":moneda,
+			}
+	context["crypto_data"] = get_crypto_data()
+	if form.is_valid():
+		instance=form.save(commit=False)
+		form.save()
 		
-		return context
 
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST)
-		pkk=kwargs['pk']
-		if form.is_valid() and form2.is_valid():
-			solicitud = form.save(commit=False)
-			solicitud.persona = form2.save()
-			solicitud.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return self.render_to_response(self.get_context_data(form=form, form2=form2))
-
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object
-		form = self.form_class(request.POST)
-		form2 = self.second_form_class(request.POST)
-		if form.is_valid() and form2.is_valid():
-			solicitud = form.save(commit=False)
-			solicitud.persona = form2.save()
-			solicitud.save()
-			return HttpResponseRedirect(self.get_success_url())
-		else:
-			return self.render_to_response(self.get_context_data(form=form, form2=form2))
+	return render(request,'moneda/moneda_form.html',context)	
+	
 
 	
 # return the data received from api as json object
