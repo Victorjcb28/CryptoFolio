@@ -1,7 +1,59 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block content %}
+<!--
+ <script>
 
+    $(document).ready(
+            function() {
+                 
+
+                setInterval(function() {
+                    
+                     var lista=[];
+                     var lista2=[];
+                     var lista3=[];
+                     var lista4=[];
+                             
+                            $("#myTable tbody tr").each(function(){
+                                var lista4={};
+                                var tds=$(this).find("td");
+                                lista4.Name=tds.filter(":eq(0)").text();
+                                lista4.Cantidad=tds.filter(":eq(3)").text();
+                                lista3.push(lista4);
+                                
+                            });
+                             
+                            $(".symbol").each(function(){
+					            var monto = String($(this).text());
+					            lista.push(monto);                      
+					                                
+					        });
+
+					         for(i=0;i<lista.length;i++){
+                                for(j=0;j<lista3.length;j++){
+                                    
+                                    if(lista[i]==lista3[j].Name){
+                                    	//$('.cantidad').val(lista3[j].Cantidad);
+                                    	console.log(lista[i])
+                                    	//console.log(lista3[j])
+                                    }
+                                    
+
+                                }
+                                
+                                
+                            }
+                            
+
+                            //console.log(lista3)
+                            //console.log(lista)
+                            //console.log(lista2)
+                              
+                    
+                }, 5000);
+            });
+    </script>-->
 				
 
 
@@ -11,22 +63,91 @@
 				    	 
 				        var valores = "";
 				        var usd="";
-				        var btc=";"
+				        var btc="";
+				        var x=0;
+				        var i=0;
+				        var lista=[];
+	                     var lista2=[];
+	                     var lista3=[];
+	                     var lista4=[];   
+	                              
+                            
+	                     $("#myTable tbody tr").each(function(){
+                                var lista4={};
+                                var tds=$(this).find("td");
+                                lista4.Name=tds.filter(":eq(0)").text();
+                                lista4.Cantidad=tds.filter(":eq(3)").text();
+                                lista3.push(lista4);
+                                
+                          });                   
+
+	                                       
 
 				        // Obtenemos todos los valores contenidos en los <td> de la fila
 				        // seleccionada
 				        $(this).parents("tr").find(".symbol").each(function() {
-				          valores = $(this).html() + "\n";
+				          valores = $(this).text();
+				          
 				          
 				          $('.simbolo').hide();
 				          $("."+valores).toggle();
-				          $('.symbol').val(valores);
+				          $('.symbolo').val(valores);
 
+				          
+				   
+				           
+				          
+				          	
+				          	var cont=0;
+				          	var cont1=0;
+                             for(i=0;i<lista3.length;i++){                   
+                                    
+
+
+                                    
+                                    if (valores == lista3[i].Name){
+                                        //console.log(lista3[i].Name)
+                                        var cont=i+1;
+                                        //console.log(cont)
+                                        //console.log(valores)
+
+                                    }                             
+                                                              
+                               }
+
+                               
+
+                                if (cont==0){
+                                	$('.cantidad').val("0");
+                                	
+                                }
+
+                                $('.cantidad').val(lista3[cont-1].Cantidad);
+
+                                //console.log(lista3[cont-1].Cantidad)
+                                
+                            
+				          	
+
+
+				          		
+				          	
+				          //}                       
+                                                 
+                          //for (x in lista3) {
+                          	//if (valores==lista3[x].Name){
+					    	//$('.cantidad').val(lista3[x].Cantidad);
+					    	//console.log(lista3[x].Cantidad)
+					    	//}
+
+					    //}
+				        
+			       		});   
 
 				        
-				        });
 
-				        $(this).parents("tr").find(".nombre").each(function() {
+                       
+			           $(this).parents("tr").find(".nombre").each(function() {
 				          name = $(this).html() + "\n";
 				          
 				          
@@ -55,9 +176,44 @@
 				        
 				      });
 				    });
-				</script>				
+				</script>	
 
+		<table class="table table-bordered" id="myTable" style="display: none;">
 
+			<thead>
+				<tr>
+					<td>#</td>
+					<td>Cargo</td>
+					<td>Imagen</td>
+					
+					
+					<td>Acciones</td>
+				</tr>
+			</thead>
+
+			<tbody>
+			{% if monedas %}
+			
+			{% for moneda in monedas%}
+
+				
+
+				<tr>
+					<td ><label for="" class="symbol1">{{moneda.symbol}}</label></td>
+					<td>{{moneda.preciousd}}</td>
+					<td>{{moneda.preciobtc}}</td>
+					<td class="cantidad1">{{moneda.cantidad}}</td>
+					
+					
+					
+				</tr>
+			{% endfor %}
+			{% else %}
+			<h1>No hay registros de cargos</h1>
+			{% endif%}
+			</tbody>
+
+		</table>
 
       <!-- Example DataTables Card-->
       <div class="card mb-3">
@@ -128,12 +284,12 @@
 						</td>
 						
 						<td>
-						{% for moneda in monedas%}
+						
 						<fieldset class="form-group">
 						    <label for="Moneda">Cantidad</label>
-						    {{moneda.cantidad}}
+						    {{form.cantidad}}
 					  	</fieldset>
-					  	{%endfor%}
+					  	
 						</td>
 						
 						<td style="padding-top:20px;">
@@ -155,7 +311,7 @@
 
 					
 				</tr>
-				
+			
 
 				
 				
