@@ -119,29 +119,21 @@
 
                                 if (cont==0){
                                 	$('.cantidad').val("0");
+                                	$(".enviar").removeClass("btn btn-danger");
+                                	$(".enviar").addClass("btn btn-success");
+                                	$(".enviar").prop('disabled', false);
                                 	
                                 }
 
                                 $('.cantidad').val(lista3[cont-1].Cantidad);
-
-                                //console.log(lista3[cont-1].Cantidad)
-                                
+                                $(".enviar").removeClass("btn btn-success");
+                                $(".enviar").addClass("btn btn-danger");
+                                $(".enviar").prop('disabled', true);
+								                       
                             
 				          	
-
-
-				          		
-				          	
-				          //}                       
-                                                 
-                          //for (x in lista3) {
-                          	//if (valores==lista3[x].Name){
-					    	//$('.cantidad').val(lista3[x].Cantidad);
-					    	//console.log(lista3[x].Cantidad)
-					    	//}
-
-					    //}
-				        
+				          						          	
+				         				        
 			       		});   
 
 				        
@@ -254,61 +246,94 @@
 					<td class="usd">{{coin.price_usd}}</td>
 					<td class="btc">{{coin.price_btc}}</td>
 					<td><label for="">{{coin.percent_change_1h}}</label></td>
-					<td><input type="button" value="Seleccionar" class="btn btn-primary boton"></td>
+					<td><input type="button" value="Seleccionar" class="btn btn-primary boton" ></td>
 
 				</tr>
 				
-				<tr  class="simbolo {{coin.symbol}}" style="background: #E0E0E0;display: none;">
+				<tr  class="simbolo {{coin.symbol}}" style="display: none;">
 				
-					<form method="POST" id="guardaru" enctype="multipart/form-data">
+					
+						
+						<td colspan="5">
+						<form method="POST" id="guardaru" enctype="multipart/form-data">
 						{% csrf_token %}
-						
-						<td>
-						<fieldset class="form-group">
-						    <label for="Moneda">Moneda</label>
-						    {{form.symbol}}
-						    {{form.name}}
-					  	</fieldset>
-						</td>
-						<td>
-						<fieldset class="form-group">
-						    <label for="Moneda">Precio USD</label>
-						    {{form.preciousd}}
-					  	</fieldset>
-						</td>
-						<td>
-						<fieldset class="form-group">
-						    <label for="Moneda">Precio BTC</label>
-						    {{form.preciobtc}}
-					  	</fieldset>
-						</td>
-						
-						<td>
-						
-						<fieldset class="form-group">
-						    <label for="Moneda">Cantidad</label>
-						    {{form.cantidad}}
-					  	</fieldset>
-					  	
-						</td>
-						
-						<td style="padding-top:20px;">
-						<fieldset class="form-group">
-							<button type="submit" class="btn btn-success" id="enviar">Registrar</button>
-							
-					  	</fieldset>
-					  	<fieldset class="form-group">
-							
+						<div class="row justify-content-center">
+							<div class="col-md-4 ">
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">	<i class="fa fa-line-chart"></i></span>
+							  </div>
+							  {{form.symbol}}
+							</div>	
+							</div>
+
+
+							<div class="col-md-4">
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">Name</span>
+							  </div>
+							  {{form.name}}
+
+							</div>	
+							</div>
+
+							<div class="col-md-4">
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">BTC</span>
+							  </div>
+							  {{form.preciobtc}}
+
+							</div>	
+							</div>
+
+						</div>
+						<!-- fin linea 1-->
+
+						<div class="row justify-content-center">
+							<div class="col-md-3 ">
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">USD</span>
+							  </div>
+							  {{form.preciousd}}
+							</div>	
+							</div>
+
+
+							<div class="col-md-3">
+							<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">Cantidad</span>
+							  </div>
+							  {{form.cantidad}}
+
+							</div>	
+							</div>
+
+						</div>
+						<!-- fin linea 2-->
+						<div class="row justify-content-center">
+							<div class="col-md-2 col-xs-2 col-sm-3">
+							<button type="submit" class="btn btn-success enviar" id="enviar">Registrar</button>
+							</div>
+
+
+							<div class="col-md-2 col-xs-2 col-sm-3">
 							<a class="btn btn-info" href="{% url 'moneda:moneda_info' coin.symbol%}">Ver mas</a>
-					  	</fieldset>
+							</div>
+
+						</div>
 						
-
-						</td>
-
+					  	
+						
+						
+						
 
 
 					</form>
-
+				</td>
 					
 				</tr>
 			
