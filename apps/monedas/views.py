@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import CreateView,ListView,UpdateView,DeleteView,TemplateView
 from django.urls import reverse_lazy
-from .forms import MonedaForm
-from .models import Moneda
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import MonedaForm,HistMonedaForm
+from .models import Moneda,HistMoneda
 import requests
+import datetime
 
 
 
@@ -40,18 +42,47 @@ class MonedaInfo1(TemplateView):
 	form_class=MonedaForm
 	template_name='moneda/moneda_info.html'
 
+#malo
+def MonedaInfo1(request , pk):
+	moneda=Moneda.objects.get(symbol=pk)
+	moneda1=HistMoneda.objects.filter(symbol=pk)
+
+	if request.method=='GET':
+		form=MonedaForm(instance=moneda)
+	else:
+		form=MonedaForm(request.POST,instance=moneda)
+		if form.is_valid():
+			form_data=form.cleaned_data
+			symbol=form_data.get('symbol')
+			date=datetime.date.today()
+			name=form_data.get('name')
+			usd=form_data.get('preciousd')
+			btc=form_data.get('preciobtc')
+			cantidad=form_data.get('cantidad')
+
+			obj=Moneda.objects.filter(symbol=pk).update(cantidad=cantidad)
+			obj1=HistMoneda.objects.create(symbol=symbol,name=name,cantidad=cantidad,preciousd=usd,preciobtc=btc,date=date)
+			
+
+		return redirect('moneda:moneda_create')
+	return render(request,'moneda/moneda_info.html',{'form':form,"monedas":moneda1})
 
 class MonedaInfo(UpdateView):
-	model = Moneda	
+	model = Moneda
+	second_model=HistMoneda	
 	form_class = MonedaForm
+	second_form_class=HistMonedaForm
+	moneda=HistMoneda.objects.all()
+
+	
+	success_url= reverse_lazy('moneda:index')	
+	template_name= 'moneda/moneda_info.html'
+
 	
 
-	template_name= 'moneda/moneda_info.html'
-	success_url= reverse_lazy('moneda:index')
-
 class MonedaList(ListView):
-	model= Moneda
-	template_name= 'moneda/moneda_list.html'
+	model= HistMoneda
+	template_name= 'moneda/tabmonedahist.html'
 
 def MonedaCreate(request):
 	moneda=Moneda.objects.all()
@@ -65,7 +96,17 @@ def MonedaCreate(request):
 	context["crypto_data"] = get_crypto_data()
 	if form.is_valid():
 		instance=form.save(commit=False)
-		form.save()
+		#form.save()
+		form_data=form.cleaned_data
+		symbol=form_data.get('symbol')
+		date=datetime.date.today()
+		name=form_data.get('name')
+		usd=form_data.get('preciousd')
+		btc=form_data.get('preciobtc')
+		cantidad=form_data.get('cantidad')
+
+		obj=Moneda.objects.create(symbol=symbol,name=name,cantidad=cantidad,preciousd=usd,preciobtc=btc)
+		obj1=HistMoneda.objects.create(symbol=symbol,name=name,cantidad=cantidad,preciousd=usd,preciobtc=btc,date=date)
 		
 
 	return render(request,'moneda/moneda_form.html',context)	
