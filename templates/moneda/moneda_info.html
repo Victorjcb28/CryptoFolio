@@ -2,7 +2,90 @@
 {% load staticfiles %}
 {% block content %}
 
+<script>
+    $(document).ready(function() {
+       var lista=[];
+       var lista2=[];
+       $(".fecha").each(function(){
+            var monto = String($(this).text());
+            lista.push(monto);                      
+                                
+        });
 
+        $(".cantidad").each(function(){
+            var cantidad = Number($(this).text());
+            lista2.push(cantidad);
+        }); 
+        
+       new Chart(document.getElementById("line-chart"), {
+  type: 'line',
+  data: {
+    labels: lista,
+    datasets: [{ 
+        data: lista2,
+        label: "Moneda",
+        borderColor: "#3e95cd",
+        fill: false
+      }, 
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Transaction Graphics'
+    }
+  }
+});
+
+                
+    });
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        
+       var lista=[];
+       var lista2=[];
+       $(".fecha").each(function(){
+            var monto = String($(this).text());
+            lista.push(monto);                      
+                                
+        });
+
+        $(".cantidad").each(function(){
+            var cantidad = Number($(this).text());
+            lista2.push(cantidad);
+        }); 
+                            
+        var datos={
+            type:"bar",
+            data:{
+                datasets:[{
+                    label:'Prueba',
+                    data:lista2,
+                    backgroundColor:[
+                        "#F7464A",
+                        "#46BFBD",
+                        "#FDB45C",
+                        "#949FB1",
+                        "#4D5360",
+
+                    ],
+                }],
+                labels:lista,
+            },
+            optiops:{
+                reponsive: true,
+            }
+        };
+        var canvas= document.getElementById('chart').getContext('2d');
+        window.bar= new Chart(canvas, datos);
+
+                
+    });
+
+</script>
 <form method="POST" id="guardarpos">
 
 	{% csrf_token %}
@@ -12,7 +95,7 @@
 		<!-- Example Pie Chart Card-->
           <div class="card mb-6" style="height: 100%;">
             <div class="card-header">
-              <i class="fa fa-fw fa-dollar"></i> Nombre de la Moneda</div>
+              <i class="fa fa-fw fa-dollar"></i>Valor Estimado de {{form.name.value}}</div>
             <div class="card-body">
               	<form method="post" id="guardaru" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -61,34 +144,55 @@
             <div class="card-body">
 	            <div class="row">
 	              	<div class="col-md-4 ">
-	              		<fieldset class="form-group">
-							    <label for="Moneda">Moneda</label>
-							    {{form.name}}
-						  	</fieldset>
-	              	</div>
+						<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1"><i class="fa fa-line-chart"></i></span>
+							  </div>
+							  {{form.symbol}}
+							  
+						</div>	
+					</div>
+
+					<div class="col-md-4 ">
+						<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">Name</span>
+							  </div>
+							  {{form.name}}
+						</div>	
+					</div>
 
 	              	<div class="col-md-4">
-	              		<fieldset class="form-group">
-							<label for="Moneda">Precio BTC</label>
-							{{form.preciobtc}}
-						 </fieldset>
-	              	</div>
+						<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">BTC</span>
+							  </div>
+							  {{form.preciobtc}}
 
-	              	<div class="col-md-4">
-	              		<fieldset class="form-group">
-							<label for="Moneda">Precio USD</label>
-							{{form.preciousd}}
-						 </fieldset>
-	              	</div>
+						</div>	
+					</div>
 	            </div>
             
             	<div class="row justify-content-center">
+
+            		<div class="col-md-4 ">
+						<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">USD</span>
+							  </div>
+							  {{form.preciousd}}
+						</div>	
+					</div>
+
 	              	<div class="col-md-4">
-	              		<fieldset class="form-group">
-							<label for="Moneda">Cantidad</label>
-						    <input type="text" class="form-control" id="cantidad" name="cantidad" size="5%">
-						</fieldset>
-	              	</div>
+						<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text" id="basic-addon1">Cantidad</span>
+							  </div>
+							  {{form.cantidad}}
+
+						</div>	
+					</div>
 
 	              	
 	             </div>
@@ -98,7 +202,7 @@
 	            <div class="row justify-content-center">
 	              	<div class="col-md-2">
 	              		<fieldset class="form-group">
-							<input type="button" value="Registrar" class="btn-primary">
+							<input type="submit" value="Registrar" class="btn-primary">
 						</fieldset>
 	              	</div>
 
@@ -139,12 +243,14 @@
 				              <i class="fa fa-floppy-o"></i> Historial de Transacciones</div>
 				            <div class="card-body">
 				              	<div class="table-responsive">
+
 				            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 				              <thead>
 				                <tr>
 				                  <th>Nombre</th>
 				                  <th>Precio USD</th>
 				                  <th>Precio BTC</th>
+				                  <th>Cantidad</th>
 				                  <th>Fecha</th>
 				                  
 				                </tr>
@@ -154,47 +260,24 @@
 				                  <th>Nombre</th>
 				                  <th>Precio USD</th>
 				                  <th>Precio BTC</th>
+				                  <th>Cantidad</th>
 				                  <th>Fecha</th>
 				                  
 				                </tr>
 				              </tfoot>
+
 				              <tbody>
+				                {% for moneda1 in monedas%}
+				                <tr>
+				                  <td>{{moneda1.name}}</td>
+				                  <td>{{moneda1.preciousd}}</td>
+				                  <td>{{moneda1.preciobtc}}</td>
+				                  <td><label for="" class="cantidad">{{moneda1.cantidad}}</label></td>
+				                  <td><label for="" class="fecha">{{moneda1.date}}</label></td>
+				                  
+				                </tr>
+				                {% endfor %}
 				                
-				                <tr>
-				                  <td>Bitcoin</td>
-				                  <td>700</td>
-				                  <td>1</td>
-				                  <td>28/11/89</td>
-				                  
-				                </tr>
-				                <tr>
-				                  <td>Bitcoin</td>
-				                  <td>767800</td>
-				                  <td>1</td>
-				                  <td>28/11/89</td>
-				                  
-				                </tr>
-				                <tr>
-				                  <td>Bitcoin</td>
-				                  <td>721300</td>
-				                  <td>1</td>
-				                  <td>28/11/89</td>
-				                  
-				                </tr>
-				                <tr>
-				                  <td>Bitcoin</td>
-				                  <td>77800</td>
-				                  <td>1</td>
-				                  <td>28/11/89</td>
-				                  
-				                </tr>
-				                <tr>
-				                  <td>Bitcoin</td>
-				                  <td>706780</td>
-				                  <td>1</td>
-				                  <td>28/11/89</td>
-				                 
-				                </tr>
 				          
 				                
 				              </tbody>
@@ -210,9 +293,10 @@
 		        <div class="card mb-3" style="height: 100%;">
 		        <div class="card-header">
 		          <i class="fa fa-area-chart"></i> Grafico de Transacciones</div>
-		        <div class="card-body">
-		          <canvas id="myAreaChart" width="100%" height="30" ></canvas>
-		        </div>
+		       	<div class="canvas-container" style="width: 100%; ">
+        
+			        <canvas id="line-chart" width="100%" height="50"></canvas>
+			    </div> 
 		        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 		      </div>
 		    </div>

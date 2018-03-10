@@ -120,16 +120,26 @@
                                 if (cont==0){
                                 	$('.cantidad').val("0");
                                 	$(".enviar").removeClass("btn btn-danger");
+                                	$(".info").removeClass("btn btn-info");
+
                                 	$(".enviar").addClass("btn btn-success");
-                                	$(".enviar").prop('disabled', false);
+                                	$(".info").addClass("btn btn-danger");
                                 	
-                                }
+                                	$(".enviar").prop('disabled', false);
+                                	$(".info").prop('disabled', true);
+                                	
+                                }else{
 
                                 $('.cantidad').val(lista3[cont-1].Cantidad);
                                 $(".enviar").removeClass("btn btn-success");
+                                $(".info").removeClass("btn btn-danger");
                                 $(".enviar").addClass("btn btn-danger");
+                                $(".info").addClass("btn btn-info");
                                 $(".enviar").prop('disabled', true);
+                               	$(".info").prop('disabled', false);
+
 								                       
+								    }                   
                             
 				          	
 				          						          	
@@ -184,8 +194,7 @@
 			</thead>
 
 			<tbody>
-			{% if monedas %}
-			
+						
 			{% for moneda in monedas%}
 
 				
@@ -200,9 +209,7 @@
 					
 				</tr>
 			{% endfor %}
-			{% else %}
-			<h1>No hay registros de cargos</h1>
-			{% endif%}
+			
 			</tbody>
 
 		</table>
@@ -264,6 +271,8 @@
 							    <span class="input-group-text" id="basic-addon1">	<i class="fa fa-line-chart"></i></span>
 							  </div>
 							  {{form.symbol}}
+							 
+							  
 							</div>	
 							</div>
 
@@ -321,7 +330,7 @@
 
 
 							<div class="col-md-2 col-xs-2 col-sm-3">
-							<a class="btn btn-info" href="{% url 'moneda:moneda_info' coin.symbol%}">Ver mas</a>
+							<a class="btn btn-info info" href="{% url 'moneda:moneda_info' coin.symbol%}">Ver mas</a>
 							</div>
 
 						</div>

@@ -1,0 +1,49 @@
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+					<th>Name</th>
+					<th>Precio</th>
+					<th>Precio BTC</th>
+					<th>Cambio ultima hora1</th>
+				</tr>
+              </thead>
+              <tfoot>
+               <tr>
+					<th>Name</th>
+					<th>Precio</th>
+					<th>Precio BTC</th>
+					<th>Cambio ultima hora</th>
+				</tr>
+              </tfoot>
+              <tbody>
+			
+
+			 
+			{% for moneda in object_list %}
+				<tr >
+					<td>{{moneda.name}}</td>
+					<td>{{moneda.preciousd}} </td>
+					<td>{{moneda.preciobtc}}</td>
+					<td>{{moneda.symbol}}</td>
+				</tr>
+
+				
+
+				
+				
+			{% endfor %}
+			
+
+</tbody>
+           
+             
+			
+            </table>	
+
+<script>
+	
+	$(document).ready(function(){
+    $('#dataTable').DataTable();
+});
+</script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
