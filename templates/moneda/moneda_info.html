@@ -1,6 +1,48 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block content %}
+<script>
+
+    $(document).ready(
+            function() {
+                setInterval(function() {
+                	var lista2=[];
+                		var lista3=[];
+	                     var lista4=[];
+                   		 $("#myTable tbody tr").each(function(){
+                                var lista4={};
+                                var tds=$(this).find("td");
+                                lista4.usd=tds.filter(":eq(2)").text();
+                                lista4.btc=tds.filter(":eq(3)").text();
+                                lista3.push(lista4);
+                                
+                          });
+
+
+
+                   		  $(".cantidaddolar").each(function(){
+				            var cantidad = Number($(this).text());
+				            lista2.push(cantidad);
+				        }); 
+
+                   		 //console.log(lista3)
+                   		 //console.log(lista2)
+                   		 //console.log(lista3[0].usd *lista2)
+                   		 var suma=lista3[0].usd *lista2;
+                   		 var btc=lista3[0].btc*lista2;
+                   		 var total=suma.toFixed(2);
+                   		 var totalbtc=btc.toFixed(2);
+                   		 $('.usd1').text(total);
+                   		 $('.btc1').text(totalbtc);
+                   		 $('#id_preciobtc').val(lista3[0].btc);
+                   		 $('#id_preciousd').val(lista3[0].usd);
+
+
+				
+                   
+                }, 400);
+            });
+    </script>
 
 <script>
     $(document).ready(function() {
@@ -42,50 +84,50 @@
 
 </script>
 
+
+
 <script>
     $(document).ready(function() {
-        
-       var lista=[];
-       var lista2=[];
-       $(".fecha").each(function(){
-            var monto = String($(this).text());
-            lista.push(monto);                      
-                                
-        });
-
-        $(".cantidad").each(function(){
-            var cantidad = Number($(this).text());
-            lista2.push(cantidad);
-        }); 
-                            
-        var datos={
-            type:"bar",
-            data:{
-                datasets:[{
-                    label:'Prueba',
-                    data:lista2,
-                    backgroundColor:[
-                        "#F7464A",
-                        "#46BFBD",
-                        "#FDB45C",
-                        "#949FB1",
-                        "#4D5360",
-
-                    ],
-                }],
-                labels:lista,
-            },
-            optiops:{
-                reponsive: true,
-            }
-        };
-        var canvas= document.getElementById('chart').getContext('2d');
-        window.bar= new Chart(canvas, datos);
+    	
 
                 
     });
 
 </script>
+
+		<table class="table table-bordered" id="myTable" style="display: none;">
+
+			<thead>
+				<tr>
+					<td>Symbolo</td>
+					<td>nombre</td>
+					<td>usd</td>
+					
+					
+					<td>btc</td>
+				</tr>
+			</thead>
+
+			<tbody>
+						
+			{% for data in datas%}
+
+				
+
+				<tr>
+					<td ><label for="" class="symbol1">{{data.symbol}}</label></td>
+					<td>{{data.name}}</td>
+					<td class="usd">{{data.price_usd}}</td>
+					<td >{{data.price_btc}}</td>
+					
+					
+					
+				</tr>
+			{% endfor %}
+			
+			</tbody>
+
+		</table>
 <form method="POST" id="guardarpos">
 
 	{% csrf_token %}
@@ -104,7 +146,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="Moneda">Precio USD</label>
-						    	<label for="">169115$</label>
+						    	<p class=usd1></p>
 
 							</div>
 						</div>
@@ -113,15 +155,15 @@
 						<div class="col-md-6 ">
 							<div class="form-group">
 								<label for="Moneda">Precio BTC</label>
-						    	<label for="">1BTC</label>
+						    	<p class=btc1></p>
 							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-md-6 ">
 							<div class="form-group">
-								<label for="Moneda">Cantidad</label>
-						    	<label for="">0.0001BTC</label>
+								<label for="Moneda">Cantidad</label> <br>
+						    	<label for="" class="cantidaddolar">{{form.cantidad.value}}</label>
 							</div>
 						</div>
 											
@@ -139,7 +181,7 @@
 		<!-- Example Pie Chart Card-->
         <div class="card mb-6" style="height: 100%;">
             <div class="card-header">
-              <i class="fa fa-line-chart"></i> Registrar Nuevo Trading
+              <i class="fa fa-line-chart"></i> Nuevo Registro
             </div>
             <div class="card-body">
 	            <div class="row">
@@ -202,7 +244,7 @@
 	            <div class="row justify-content-center">
 	              	<div class="col-md-2">
 	              		<fieldset class="form-group">
-							<input type="submit" value="Registrar" class="btn-primary">
+							<input type="submit" value="Registrar" class="btn-primary register">
 						</fieldset>
 	              	</div>
 
@@ -315,7 +357,6 @@
 	
 	
 </form>
-
 
 
 
